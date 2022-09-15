@@ -22,6 +22,7 @@ class Product(models.Model):
     price = models.FloatField(_('price'))
     flag = models.CharField(_('Flag') , max_length=10 , choices=FLAG_OPTION)
     quantity = models.IntegerField(_('Quantity'))
+    image = models.ImageField(_('Image'),upload_to='product/')
     brand = models.ForeignKey('Brand',related_name='product_brand' ,on_delete=models.SET_NULL,null=True ,blank=True)
     category = models.ForeignKey('Category',related_name='category_brand' ,on_delete=models.SET_NULL,null=True ,blank=True)
 
