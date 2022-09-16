@@ -4,6 +4,8 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.validators import MaxValueValidator , MinValueValidator
+from taggit.managers import TaggableManager
+
 
 # Create your models here.
 
@@ -25,6 +27,7 @@ class Product(models.Model):
     image = models.ImageField(_('Image'),upload_to='product/')
     brand = models.ForeignKey('Brand',related_name='product_brand' ,on_delete=models.SET_NULL,null=True ,blank=True)
     category = models.ForeignKey('Category',related_name='category_brand' ,on_delete=models.SET_NULL,null=True ,blank=True)
+    tags = TaggableManager()
 
 
     def __str__(self):
