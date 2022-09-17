@@ -26,7 +26,7 @@ class Product(models.Model):
     quantity = models.IntegerField(_('Quantity'))
     image = models.ImageField(_('Image'),upload_to='product/')
     brand = models.ForeignKey('Brand',related_name='product_brand' ,on_delete=models.SET_NULL,null=True ,blank=True)
-    category = models.ForeignKey('Category',related_name='category_brand' ,on_delete=models.SET_NULL,null=True ,blank=True)
+    category = models.ForeignKey('Category',related_name='product_category' ,on_delete=models.SET_NULL,null=True ,blank=True)
     tags = TaggableManager()
 
 
@@ -44,6 +44,8 @@ class ProductImage(models.Model):
 class Brand(models.Model):
     name = models.CharField(_('Name'),max_length=20)
     image = models.ImageField(_('Image'),upload_to='brands/')
+    category = models.ForeignKey('Category',related_name='brand_category' ,on_delete=models.SET_NULL,null=True ,blank=True)
+
 
     def __str__(self):
         return self.name
