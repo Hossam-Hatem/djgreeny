@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.validators import MaxValueValidator , MinValueValidator
 from taggit.managers import TaggableManager
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -28,11 +29,14 @@ class Product(models.Model):
     brand = models.ForeignKey('Brand',related_name='product_brand' ,on_delete=models.SET_NULL,null=True ,blank=True)
     category = models.ForeignKey('Category',related_name='product_category' ,on_delete=models.SET_NULL,null=True ,blank=True)
     tags = TaggableManager()
-
+    slug = models.SlugField(null=True,blank=True)
 
     def __str__(self):
         return self.name
-
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
     
 
 class ProductImage(models.Model):
@@ -42,11 +46,11 @@ class ProductImage(models.Model):
     def __str__(self):
         return str(self.product)
 
+
 class Brand(models.Model):
     name = models.CharField(_('Name'),max_length=20)
     image = models.ImageField(_('Image'),upload_to='brands/')
     category = models.ForeignKey('Category',related_name='brand_category' ,on_delete=models.SET_NULL,null=True ,blank=True)
-
 
     def __str__(self):
         return self.name
@@ -59,6 +63,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class ProductReview(models.Model):
     user = models.ForeignKey(User,related_name='user_review',on_delete=models.CASCADE)
     product = models.ForeignKey(Product,related_name='product_review',on_delete=models.CASCADE)
@@ -68,5 +73,3 @@ class ProductReview(models.Model):
 
     def __str__(self):
         return str(self.user)
-
-

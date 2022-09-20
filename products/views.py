@@ -38,3 +38,4 @@ class CategoryDetail(DetailView):
         category = self.get_object()
         context["product_category"] = Product.objects.filter(category=category)
         return context
+
