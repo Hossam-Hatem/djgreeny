@@ -29,3 +29,12 @@ class BrandDetail(DetailView):
     
 class CategoryList(ListView):
     model = Category
+
+class CategoryDetail(DetailView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = self.get_object()
+        context["product_category"] = Product.objects.filter(category=category)
+        return context
